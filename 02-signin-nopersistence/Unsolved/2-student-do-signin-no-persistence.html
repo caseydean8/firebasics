@@ -88,12 +88,23 @@
       event.preventDefault();
 
       // Capture User Inputs and store them into variables
-
+      const userName = $("#name-input").val();
+      const userEmail = $("#email-input").val();
+      const userAge = $("#age-input").val();
+      const userComment = $("#comment-input").val();
 
       // Console log each of the user inputs to confirm we are receiving them correctly
-
+      console.log(userName);
+      console.log(userEmail);
+      console.log(userAge);
+      console.log(userComment);
 
       // Output all of the new information into the relevant HTML sections
+      $("#name-display").text(userName);
+      $("#email-display").text(userEmail);
+      $("#age-display").text(userAge);
+      $("#comment-display").text(userComment);
+
     });
 
   </script>
