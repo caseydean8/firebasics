@@ -45,33 +45,21 @@
 
     // Create an initial toDoCount variable
     let toDoCount = 0;
-    let toDoArr = [];
-    console.log(toDoArr);
-    console.log(localStorage);
+    let storedList = JSON.parse(localStorage.getItem("todoList"));
     //  On Click event associated with the add-to-do function
     // Add To Do 
     $("#add-to-do").on("click", function (event) {
       event.preventDefault();
       const toDo = $("#to-do").val();
-      toDoArr.push(toDo);
-      console.log(`todo array: ${toDoArr}`)
       storedList.push(toDo)
       // console.log(toDoArr);
       const storeString = JSON.stringify(storedList);
-      console.log(storeString);
-      localStorage.clear();
 
       // Store the username into localStorage using "localStorage.setItem"
       localStorage.setItem("todoList", storeString);
       console.log(localStorage);
 
-      // localStorageArr = storedList.split(",");
-      // console.log(localStorageArr);
-      // Then give it an ID in the following form:
-      // "item-4" or "item-3" or "item-99", where the number is equal to toDoCount.
-      // Then set the to-do "value" as text to this <p> element.
       makeList(toDo);
-
       // Clear the textbox when done
       $("#to-do").val("");
     });
@@ -79,6 +67,9 @@
     const makeList = (item) => {
       if (item) {
         const toDoMarkUp = $("<p>");
+        // Then give it an ID in the following form:
+        // "item-4" or "item-3" or "item-99", where the number is equal to toDoCount.
+        // Then set the to-do "value" as text to this <p> element.
         $(toDoMarkUp).attr("id", `item-${toDoCount}`).text(item + " ");
         // Create a button with unique identifiers based on what number it is in the list. Again use jQuery to do this.
         const toDoBtn = $("<button>").attr("id", `button-${toDoCount}`);
@@ -94,30 +85,25 @@
       }
     };
 
-    let storedList = JSON.parse(localStorage.getItem("todoList"));
-    console.log(storedList);
     const locArrDisplay = (array) => {
       array.forEach(element => {
         makeList(element);
       });
     }
-
-    window.onload = locArrDisplay(storedList);
-
-    // makeList(Storage[0]);
+    // Call makeList from local storage
+    locArrDisplay(storedList);
 
     //  When a user clicks a check box then delete the specific content
     //  (NOTE: Pay attention to the unusual syntax here for the click event.
     //  Because we are creating click events on "dynamic" content, we can't just use the usual "on" "click" syntax.)
     $(document.body).on("click", ".checkbox", function () {
-
       // Get the number of the button from its data attribute and hold in a variable called  toDoNumber.
       const toDoNumber = $(this).attr("data-to-do");
 
       // Select and Empty the specific <p> element that previously held the to do item number.
       $(`#item-${toDoNumber}`).empty();
       storedList.splice(toDoNumber, 1);
-      console.log(storedList)
+      // Reset local storage
       localStorage.setItem("todoList", JSON.stringify(storedList));
     });
 

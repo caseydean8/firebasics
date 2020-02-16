@@ -1,4 +1,14 @@
 // Initialize Firebase (YOUR OWN APP)
+const firebaseConfig = {
+  apiKey: "AIzaSyCDCb5kyDQP0_UL61WXHlDBn7875h0T-zU",
+  authDomain: "simpleclkbtn.firebaseapp.com",
+  databaseURL: "https://simpleclkbtn.firebaseio.com",
+  projectId: "simpleclkbtn",
+  storageBucket: "simpleclkbtn.appspot.com",
+  messagingSenderId: "866511009833",
+  appId: "1:866511009833:web:1a9afb962de14771b18438",
+  measurementId: "G-V3HQ3TT49W"
+};
 
 // Set Initial Counter
 var initialValue = 100;
