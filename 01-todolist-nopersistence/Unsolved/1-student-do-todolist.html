@@ -31,9 +31,10 @@
   <!-- To-Do List -->
   <div id="to-dos"></div>
 
-  <p style="margin-top: 40%;">Each of the buttons and text elements should have a dynamically created identifier or data
-    attribute that differentiates one item on the list from another. You should use these attributes to close out the
-    appropriate items when you click on the "X" beside them.</p>
+  <p style="margin-top: 30%; font-size: larger;">incorporate the use of `localStorage` to create data persistence. <br>
+    You will need to create an additional array of todos that you can keep adding todo items to. <br>You will need to
+    selectively delete array elements to get this working properly. (Suggestion: Look into `.splice`)<br>You will need
+    to take an array and dump the contents into localStorage (Suggestion: Use `JSON.stringify(todoArray)`).</p>
 
   <!-- jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -44,31 +45,28 @@
 
     // Create an initial toDoCount variable
     let toDoCount = 0;
+    let toDoArr = [];
     //  On Click event associated with the add-to-do function
     $("#add-to-do").on("click", function (event) {
-      // prevent form from submitting
       event.preventDefault();
-      // Get the to-do "value" from the textbox and store it a variable
       const toDo = $("#to-do").val();
+      toDoArr.push(toDo);
+      console.log(toDoArr);
+      const storeString = JSON.stringify(toDoArr);
+      console.log(storeString);
+      // localStorage.clear();
 
-      // Create a new variable that will hold a "<p>" tag.
+      // Store the username into localStorage using "localStorage.setItem"
+      localStorage.setItem("todoList", storeString);
+      console.log(localStorage);
+      
+      console.log("stored list:" + storedList)
+      // localStorageArr = storedList.split(",");
+      // console.log(localStorageArr);
       // Then give it an ID in the following form:
       // "item-4" or "item-3" or "item-99", where the number is equal to toDoCount.
       // Then set the to-do "value" as text to this <p> element.
-      const toDoMarkUp = $("<p>");
-      $(toDoMarkUp).attr("id", `item-${toDoCount}`).text(toDo + " ");
-      // $(toDoMarkUp).text(toDo + " ");
-
-      // Create a button with unique identifiers based on what number it is in the list. Again use jQuery to do this.
-      const toDoBtn = $("<button>").attr("id", `button-${toDoCount}`);
-      // Give your button a data attribute called data-to-do and a class called "checkbox".
-      $(toDoBtn).attr({ "data-to-do": toDoCount, class: "checkbox" }).text("x");
-      // Lastly add the letter X inside.
-      // Append the button to the to do item
-      $(toDoMarkUp).append(toDoBtn);
-
-      // Add the button and toDoItem to the to-dos div
-      $("#to-dos").append(toDoMarkUp);
+      makeList(toDo);
 
       // Clear the textbox when done
       $("#to-do").val("");
@@ -76,6 +74,30 @@
       // Add to the toDoCount
       toDoCount++;
     });
+
+    const makeList = (item) => {
+      if (item) {
+        // array.forEach(item => { });
+        const toDoMarkUp = $("<p>");
+        $(toDoMarkUp).attr("id", `item-${toDoCount}`).text(item + " ");
+        // Create a button with unique identifiers based on what number it is in the list. Again use jQuery to do this.
+        const toDoBtn = $("<button>").attr("id", `button-${toDoCount}`);
+        // Give your button a data attribute called data-to-do and a class called "checkbox".
+        $(toDoBtn).attr({ "data-to-do": toDoCount, class: "checkbox" }).text("x");
+        // Lastly add the letter X inside.
+        // Append the button to the to do item
+        $(toDoMarkUp).append(toDoBtn);
+
+        // Add the button and toDoItem to the to-dos div
+        $("#to-dos").append(toDoMarkUp);
+      }
+    };
+
+    let storedList = JSON.parse(localStorage.getItem("todoList"));
+
+    window.onload = makeList(storedList);
+
+    // makeList(Storage[0]);
 
     //  When a user clicks a check box then delete the specific content
     //  (NOTE: Pay attention to the unusual syntax here for the click event.
@@ -86,9 +108,10 @@
       const toDoNumber = $(this).attr("data-to-do");
 
       // Select and Empty the specific <p> element that previously held the to do item number.
-        $(`#item-${toDoNumber}`).empty()
+      $(`#item-${toDoNumber}`).empty()
 
     });
+
   </script>
 
 </body>

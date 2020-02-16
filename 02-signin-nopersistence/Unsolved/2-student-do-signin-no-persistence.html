@@ -98,15 +98,24 @@
       console.log(userEmail);
       console.log(userAge);
       console.log(userComment);
-      $("#name-display").empty();
-      $("#email-display").empty();
-      $("#age-display").empty();
-      $("#comment-display").empty();
+      // $("#name-display").empty();
+      // $("#email-display").empty();
+      // $("#age-display").empty();
+      // $("#comment-display").empty();
+
+      // sessionStorage is basically interchangeable with localStorage, codewise
+      localStorage.clear();
+      // sessionStorage.clear();
 
       localStorage.setItem("name", userName);
       localStorage.setItem("email", userEmail);
       localStorage.setItem("age", userAge);
       localStorage.setItem("comment", userComment);
+
+      // sessionStorage.setItem("name", userName);
+      // sessionStorage.setItem("email", userEmail);
+      // sessionStorage.setItem("age", userAge);
+      // sessionStorage.setItem("comment", userComment);
 
 
 
@@ -124,6 +133,11 @@
     $("#age-display").text(localStorage.getItem("age"));
     $("#comment-display").text(localStorage.getItem("comment"));
 
+  </script>
+
+  <script>
+    sessionStorage.setItem("sessionData", "I am set in session storage.");
+    localStorage.setItem("localData", "I am set in local storage.");    
   </script>
 
 </body>
