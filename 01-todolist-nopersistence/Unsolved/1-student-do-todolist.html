@@ -46,21 +46,25 @@
     // Create an initial toDoCount variable
     let toDoCount = 0;
     let toDoArr = [];
+    console.log(toDoArr);
+    console.log(localStorage);
     //  On Click event associated with the add-to-do function
+    // Add To Do 
     $("#add-to-do").on("click", function (event) {
       event.preventDefault();
       const toDo = $("#to-do").val();
       toDoArr.push(toDo);
-      console.log(toDoArr);
-      const storeString = JSON.stringify(toDoArr);
+      console.log(`todo array: ${toDoArr}`)
+      storedList.push(toDo)
+      // console.log(toDoArr);
+      const storeString = JSON.stringify(storedList);
       console.log(storeString);
-      // localStorage.clear();
+      localStorage.clear();
 
       // Store the username into localStorage using "localStorage.setItem"
       localStorage.setItem("todoList", storeString);
       console.log(localStorage);
-      
-      console.log("stored list:" + storedList)
+
       // localStorageArr = storedList.split(",");
       // console.log(localStorageArr);
       // Then give it an ID in the following form:
@@ -70,14 +74,10 @@
 
       // Clear the textbox when done
       $("#to-do").val("");
-
-      // Add to the toDoCount
-      toDoCount++;
     });
 
     const makeList = (item) => {
       if (item) {
-        // array.forEach(item => { });
         const toDoMarkUp = $("<p>");
         $(toDoMarkUp).attr("id", `item-${toDoCount}`).text(item + " ");
         // Create a button with unique identifiers based on what number it is in the list. Again use jQuery to do this.
@@ -90,12 +90,20 @@
 
         // Add the button and toDoItem to the to-dos div
         $("#to-dos").append(toDoMarkUp);
+        toDoCount++;
       }
     };
 
     let storedList = JSON.parse(localStorage.getItem("todoList"));
+    console.log(storedList);
+    // let localStorageArr= storedList.split(",");
+    const locArrDisplay = (array) => {
+      array.forEach(element => {
+        makeList(element);
+      });
+    }
 
-    window.onload = makeList(storedList);
+    window.onload = locArrDisplay(storedList);
 
     // makeList(Storage[0]);
 
