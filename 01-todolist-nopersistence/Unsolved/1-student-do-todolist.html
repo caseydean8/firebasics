@@ -96,7 +96,6 @@
 
     let storedList = JSON.parse(localStorage.getItem("todoList"));
     console.log(storedList);
-    // let localStorageArr= storedList.split(",");
     const locArrDisplay = (array) => {
       array.forEach(element => {
         makeList(element);
@@ -116,8 +115,10 @@
       const toDoNumber = $(this).attr("data-to-do");
 
       // Select and Empty the specific <p> element that previously held the to do item number.
-      $(`#item-${toDoNumber}`).empty()
-
+      $(`#item-${toDoNumber}`).empty();
+      storedList.splice(toDoNumber, 1);
+      console.log(storedList)
+      localStorage.setItem("todoList", JSON.stringify(storedList));
     });
 
   </script>
