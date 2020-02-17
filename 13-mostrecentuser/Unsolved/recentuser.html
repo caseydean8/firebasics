@@ -121,13 +121,13 @@
         comment: comment
       };
 
-      db.ref().set({newUser});
+      db.ref().push({newUser});
     });
 
 
     // Firebase watcher + initial loader HINT: .on("value")
-    db.ref().on("value", function(snapshot) {
-      // async = true;
+    db.ref().on("child_added", function(snapshot) {
+      async = true;
       console.log(snapshot.val());
       const sv = snapshot.val().newUser;
       $("#name-display").text(sv.name);
