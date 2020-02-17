@@ -7,8 +7,8 @@
   <title>Sign-Up Today!</title>
 
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
-    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
 </head>
 
@@ -20,7 +20,7 @@
 
     <!-- Jumbotron -->
     <div class="jumbotron">
-      <h1 class="text-center">Sign-Up Today!</h1>
+      <h3 class="text-center">Sign-Up Today!</h3>
     </div>
     <div class="row">
 
@@ -79,35 +79,64 @@
   <script src="https://code.jquery.com/jquery.js"></script>
 
   <!-- LINKS FOR FIREBASE GO HERE -->
-  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-database.js"></script>
 
   <!-- Script -->
   <script>
     //  START CODING BELOW!!
-
+    var firebaseConfig = {
+      apiKey: "AIzaSyCymoATEQ-EAddTsgg_zsCW_GGvfUD9koI",
+      authDomain: "recentuseract13-16c44.firebaseapp.com",
+      databaseURL: "https://recentuseract13-16c44.firebaseio.com",
+      projectId: "recentuseract13-16c44",
+      storageBucket: "recentuseract13-16c44.appspot.com",
+      messagingSenderId: "798268956901",
+      appId: "1:798268956901:web:56c1dbf46412e792e8b40c"
+    };
     // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
 
 
     // Create a variable to reference the database
-
+    const db = firebase.database();
 
     // Capture Button Click
-    $("#add-user").on("click", function(event) {
+    $("#add-user").on("click", function (event) {
       // Don't refresh the page!
       event.preventDefault();
 
       // YOUR TASK!!!
 
       // Code in the logic for storing and retrieving the most recent user.
-
+      const name = $("#name-input").val();
+      const email = $("#email-input").val();
+      const age = $("#age-input").val();
+      const comment = $("#comment-input").val();
       // Don't forget to provide initial data to your Firebase database.
+      const newUser = {
+        name: name,
+        email: email,
+        age: age,
+        comment: comment
+      };
 
+      db.ref().set({newUser});
     });
 
 
     // Firebase watcher + initial loader HINT: .on("value")
-
+    db.ref().on("value", function(snapshot) {
+      // async = true;
+      console.log(snapshot.val());
+      const sv = snapshot.val().newUser;
+      $("#name-display").text(sv.name);
+      $("#email-display").text(sv.email);
+      $("#age-display").text(sv.age);
+      $("#comment-display").text(sv.comment);
+    }, function(err) {
+      console.log(`read failed: ${err.code}`)
+    })
 
     // Create Error Handling
 

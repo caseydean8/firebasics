@@ -25,6 +25,7 @@ var clickCounter = initialValue;
 database.ref().on(
   "value",
   function(snapshot) {
+    async = true;
     // Print the initial data to the console.
     console.log(snapshot.val());
     // Change the clickCounter to match the data in the database

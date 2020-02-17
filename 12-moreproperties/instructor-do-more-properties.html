@@ -88,7 +88,7 @@
       console.log(snapshot.val().phone);
 
       // Change the HTML
-      $("#displayed-data").text(snapshot.val().name + " | " + snapshot.val().age + " | " + snapshot.val().phone);
+      $("#displayed-data").text(snapshot.val().name + " / " + snapshot.val().age + " / " + snapshot.val().phone);
 
       // If any errors are experienced, log them to console.
     }, function(errorObject) {
