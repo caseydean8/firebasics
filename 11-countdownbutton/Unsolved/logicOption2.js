@@ -9,17 +9,29 @@ const firebaseConfig = {
   appId: "1:866511009833:web:1a9afb962de14771b18438",
   measurementId: "G-V3HQ3TT49W"
 };
-
+console.log("here");
+ // Initialize Firebase
+ firebase.initializeApp(firebaseConfig);
+//  firebase.analytics();
+var database = firebase.database();
+// console.log(database);
 // Set Initial Counter
 var initialValue = 100;
 
 var clickCounter = initialValue;
 
 // --------------------------------------------------------------
-
 // At the initial load, get a snapshot of the current data.
+database.ref().on("value", function(snapshot) {
+  console.log(snapshot.val());
+})
 
-
+$("#click-button").on("click", function() {
+  clickCounter--;
+  database.ref().set({
+    clicks: clickCounter
+  });
+})
 // Print the initial data to the console.
 
 
