@@ -32,28 +32,52 @@ db.ref().on("value", function(snapshot) {
   const sv = snapshot.val();
   // If Firebase has a highPrice and highBidder stored (first case)
   if (sv.bid > highPrice) {
+    // Set the variables for highBidder/highPrice equal to the stored values in firebase.
     highPrice = sv.bid;
     highBidder = sv.name;
   }
+  // Change the HTML to reflect the stored values
   $("#highest-bidder").text(highBidder);
   $("#highest-price").text(highPrice);
+  // Print the data to the console.
+
+  // Else Firebase doesn't have a highPrice/highBidder, so use the initial local values.
+
+  // Change the HTML to reflect the initial values
+
+  // Print the data to the console.
 });
 
-// Set the variables for highBidder/highPrice equal to the stored values in firebase.
-// highPrice = ...
-// highBidder = ...
-
-// Change the HTML to reflect the stored values
-
-// Print the data to the console.
-
-// Else Firebase doesn't have a highPrice/highBidder, so use the initial local values.
-
-// Change the HTML to reflect the initial values
-
-// Print the data to the console.
-
 // --------------------------------------------------------------
+
+var connectionsRef = db.ref("/connections");
+
+// '.info/connected' is a special location provided by Firebase that is updated every time
+// the client's connection state changes.
+// '.info/connected' is a boolean value, true if the client is connected and false if they are not.
+var connectedRef = db.ref(".info/connected");
+console.log(connectedRef);
+
+// When the client's connection state changes...
+connectedRef.on("value", function(snap) {
+  // If they are connected..
+  if (snap.val()) {
+    // if snap.val === true
+
+    // Add user to the connections list.
+    var con = connectionsRef.push(true);
+
+    // Remove user from the connection list when they disconnect.
+    con.onDisconnect().remove();
+  }
+});
+
+// When first loaded or when the connections list changes...
+connectionsRef.on("value", function(snapshot) {
+  // Display the viewer count in the html.
+  // The number of online users is the number of children in the connections list.
+  $("#watchers").text(`connections: ${snapshot.numChildren()}`);
+});
 
 // Whenever a user clicks the submit-bid button
 $("#submit-bid").on("click", function(event) {
